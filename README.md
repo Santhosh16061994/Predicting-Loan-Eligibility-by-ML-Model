@@ -1,5 +1,3 @@
-Certainly! Here's a sample README file description for a Loan Eligibility Model:
-
 # Loan Eligibility Model
 
 The Loan Eligibility Model is a machine learning-based solution that predicts the eligibility of individuals for loans based on their personal and financial attributes. It uses historical loan data to train a predictive model and offers a reliable tool for loan eligibility assessment.
