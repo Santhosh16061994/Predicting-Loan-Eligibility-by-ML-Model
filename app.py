@@ -49,7 +49,7 @@ def main():
 
     # Input fields
     st.markdown("### Personal Information")
-    col1, col2 = st.beta_columns(2)
+    col1, col2 = st.columns(2)
     gender = col1.selectbox('Gender', ('Male', 'Female'))
     married = col2.selectbox('Married', ('Yes', 'No'))
     dependents = col1.selectbox('Dependents', ('None', 'One', 'Two', 'Three'))
@@ -57,7 +57,7 @@ def main():
     self_employed = col1.selectbox('Self-Employed', ('Yes', 'No'))
 
     st.markdown("### Financial Information")
-    col3, col4 = st.beta_columns(2)
+    col3, col4 = st.columns(2)
     applicant_income = col3.number_input('Applicant Income')
     coapplicant_income = col4.number_input('Coapplicant Income')
     loan_amount = col3.number_input('Loan Amount')
@@ -85,8 +85,46 @@ with open('train_model.pkl', 'rb') as pkl:
 
 # Function to preprocess user input and make predictions
 def predict(gender, married, dependent, education, self_employed, applicant_income,
+           coapplicant_income, loan_amount, loan_amount_term, credit_history, propertyI apologize for the confusion. It seems there was a mistake in the code provided. The correct method to create multiple columns in Streamlit is `st.columns()` instead of `st.beta_columns()`. Here's the corrected version of the code:
+
+```python
+import streamlit as st
+import pickle
+
+def main():
+    bg = """<div style='background-color:black; padding:13px'>
+              <h1 style='color:white'>Streamlit Loan Eligibility Prediction App</h1>
+           </div>"""
+    st.markdown(bg, unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+    gender = col1.selectbox('Gender', ('Male', 'Female'))
+    married = col2.selectbox('Married', ('Yes', 'No'))
+    dependents = col1.selectbox('Dependents', ('None', 'One', 'Two', 'Three'))
+    education = col2.selectbox('Education', ('Graduate', 'Not Graduate'))
+
+    col3, col4 = st.columns(2)
+    self_employed = col3.selectbox('Self-Employed', ('Yes', 'No'))
+    applicant_income = col4.number_input('Applicant Income')
+
+    col5, col6 = st.columns(2)
+    coapplicant_income = col5.number_input('Coapplicant Income')
+    loan_amount = col6.number_input('Loan Amount')
+
+    col7, col8 = st.columns(2)
+    loan_amount_term = col7.number_input('Loan Tenure (in months)')
+    credit_history = col8.number_input('Credit History', 0.0, 1.0)
+
+    property_area = st.selectbox('Property Area', ('Semiurban', 'Urban', 'Rural'))
+    button = st.button('Predict')
+
+    if button:
+        result = predict(gender, married, dependents, education, self_employed, applicant_income,
+                        coapplicant_income, loan_amount, loan_amount_term, credit_history, property_area)
+        st.success(f'You are {result} for the loan')
+
+def predict(gender, married, dependent, education, self_employed, applicant_income,
            coapplicant_income, loan_amount, loan_amount_term, credit_history, property_area):
-    # Processing user input
     gen = 0 if gender == 'Male' else 1
     mar = 0 if married == 'Yes' else 1
     dep = float(0 if dependent == 'None' else 1 if dependent == 'One' else 2 if dependent == 'Two' else 3)
@@ -96,10 +134,8 @@ def predict(gender, married, dependent, education, self_employed, applicant_inco
     Lam = loan_amount / 1000
     cap = coapplicant_income / 1000
 
-    # Making predictions
     prediction = train_model.predict([[gen, mar, dep, edu, sem, applicant_income, cap,
                                       Lam, loan_amount_term, credit_history, pro]])
-
     verdict = 'Not Eligible' if prediction == 0 else 'Eligible'
     return verdict
 
