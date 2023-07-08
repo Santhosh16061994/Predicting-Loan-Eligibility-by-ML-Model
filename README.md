@@ -49,5 +49,4 @@ The model's performance is evaluated using standard evaluation metrics such as a
 Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
 
 web app link Streamlit Loan Eligibility Prediction App
-
 https://loanpredictor.streamlit.app/
